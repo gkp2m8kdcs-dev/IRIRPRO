@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — IRIRPRO</title>
+<meta name="description" content="IRIRPRO privacy policy. We collect nothing. Everything stays on your device.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-deep: #0a0e1a;
+    --bg-card: #111827;
+    --stroke: rgba(255,255,255,0.08);
+    --text-primary: #f5f7fb;
+    --text-secondary: #b8c0d0;
+    --text-muted: #7a8499;
+    --accent: #5b8def;
+    --accent-deep: #7c3aed;
+  }
+  html, body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.7;
+  }
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(800px 500px at 10% 0%, rgba(124,58,237,0.16), transparent 60%),
+      radial-gradient(700px 500px at 90% 30%, rgba(91,141,239,0.14), transparent 60%);
+  }
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+  header {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--stroke);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    background: rgba(10,14,26,0.7);
+    z-index: 10;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    font-size: 20px;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 800;
+  }
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  nav a:hover { color: var(--text-primary); }
+
+  .doc { padding: 64px 0 80px; }
+  .doc h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  .doc .lede { color: var(--text-secondary); font-size: 17px; margin-bottom: 8px; }
+  .doc .updated { color: var(--text-muted); font-size: 13px; margin-bottom: 48px; }
+
+  .doc h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+  }
+  .doc h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+  .doc p { color: var(--text-secondary); margin-bottom: 14px; font-size: 15.5px; }
+  .doc ul { padding-left: 22px; margin-bottom: 14px; }
+  .doc li { color: var(--text-secondary); margin-bottom: 6px; font-size: 15.5px; }
+
+  .callout {
+    background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(91,141,239,0.08));
+    border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .callout strong { color: #22c55e; }
+
+  .contact-box {
+    background: var(--bg-card);
+    border: 1px solid var(--stroke);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-top: 16px;
+  }
+  .contact-box a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  footer {
+    border-top: 1px solid var(--stroke);
+    padding: 32px 0;
+    margin-top: 64px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  footer a { color: var(--text-secondary); text-decoration: none; margin: 0 12px; }
+  footer a:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<header>
+  <div class="container nav">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">∑</div>
+      <span>IRIRPRO</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="terms.html">Terms</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="doc">
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="lede">IRIRPRO is a fully offline calculator. This page explains, in plain language, what we do — and what we don't — with your data.</p>
+    <div class="updated">Last updated: September 1, 2026</div>
+
+    <div class="callout">
+      <strong>The short version:</strong> We collect nothing. We have no servers. Your loan scenarios never leave your device.
+    </div>
+
+    <h2>1. Data We Collect</h2>
+    <p><strong>None.</strong> IRIRPRO does not collect, transmit, store, sell, or share any personal data. The app does not request your name, email, phone number, location, contacts, photos, or any other identifier.</p>
+
+    <h3>Data you enter stays on your device</h3>
+    <p>Every loan amount, interest rate, term, fee, and scenario you save inside IRIRPRO is stored exclusively in the app's local sandbox on your iPhone or iPad. The data is protected by iOS sandboxing and, optionally, your device passcode and Face ID / Touch ID.</p>
+
+    <h3>No analytics, no telemetry</h3>
+    <p>IRIRPRO integrates no analytics SDKs, no crash reporters, no advertising networks, no attribution platforms, and no remote logging. There is no A/B testing, no funnel tracking, and no event beacon of any kind.</p>
+
+    <h2>2. How Your Data Is Stored</h2>
+    <p>All saved scenarios, the calculation history, and your preferences live in a private local store inside the app container. The exact technical implementation uses Apple's standard on-device persistence APIs.</p>
+    <ul>
+      <li>Data is encrypted at rest by the iOS file system when the device is locked.</li>
+      <li>Data is not included in iCloud backups created by the app itself (no backup is ever produced).</li>
+      <li>Removing IRIRPRO from your device permanently deletes all stored data.</li>
+      <li>You may wipe every saved scenario at any time using the "Clear All" action in Settings.</li>
+    </ul>
+
+    <h2>3. Network Activity</h2>
+    <p>The app is fully functional offline. The only network request that may occur is the system's standard Apple App Store receipt-validation check, which is initiated by iOS itself — not by IRIRPRO — and contains no user-identifiable information about your loan scenarios.</p>
+
+    <h2>4. Children's Privacy</h2>
+    <p>IRIRPRO is a general-audience utility and is suitable for all ages. Because the app collects no data from anyone, the requirements of the Children's Online Privacy Protection Act (COPPA) and equivalent international regulations are inherently satisfied.</p>
+
+    <h2>5. Third Parties</h2>
+    <p>No third-party SDK, framework, or service receives any information from IRIRPRO. The app is fully self-contained.</p>
+
+    <h2>6. International Users</h2>
+    <p>Because nothing leaves your device, IRIRPRO does not transfer personal data across borders. The app is fully compliant with the EU General Data Protection Regulation (GDPR), the UK Data Protection Act 2018, the California Consumer Privacy Act (CCPA / CPRA), and Brazil's LGPD.</p>
+
+    <h2>7. Changes to This Policy</h2>
+    <p>If we ever change this policy in a way that affects data collection, we will update the "Last updated" date above and surface a notice inside the app. Because the policy has always been and remains "we collect nothing," no such change is anticipated.</p>
+
+    <h2>8. Contact</h2>
+    <p>If you have any questions about this policy or the app's data practices, please contact us:</p>
+    <div class="contact-box">
+      <strong>IRIRPRO Support</strong><br>
+      Email: <a href="mailto:selmabarankolay@gmail.com">selmabarankolay@gmail.com</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <a href="index.html">Home</a>
+  <a href="support.html">Support</a>
+  <a href="terms.html">Terms</a>
+  <span>© 2026 IRIRPRO</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — IRIRPRO</title>
+<meta name="description" content="IRIRPRO support: FAQ, contact, and feature guide.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-deep: #0a0e1a;
+    --bg-card: #111827;
+    --stroke: rgba(255,255,255,0.08);
+    --text-primary: #f5f7fb;
+    --text-secondary: #b8c0d0;
+    --text-muted: #7a8499;
+    --accent: #5b8def;
+    --accent-deep: #7c3aed;
+    --amber: #f59e0b;
+  }
+  html, body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.7;
+  }
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(800px 500px at 10% 0%, rgba(124,58,237,0.16), transparent 60%),
+      radial-gradient(700px 500px at 90% 30%, rgba(91,141,239,0.14), transparent 60%);
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+  header {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--stroke);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    background: rgba(10,14,26,0.7);
+    z-index: 10;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    font-size: 20px;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 800;
+  }
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  nav a:hover, nav a.active { color: var(--text-primary); }
+
+  main { padding: 64px 0 80px; }
+  h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  .lede { color: var(--text-secondary); font-size: 17px; margin-bottom: 56px; max-width: 600px; }
+
+  .contact-card {
+    background: linear-gradient(135deg, rgba(91,141,239,0.08), rgba(124,58,237,0.08));
+    border: 1px solid rgba(91,141,239,0.3);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .contact-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    display: grid;
+    place-items: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .contact-text { flex: 1; min-width: 220px; }
+  .contact-text h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .contact-text p { color: var(--text-secondary); font-size: 14px; }
+  .contact-text a {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  h3.section {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 48px 0 20px;
+    letter-spacing: -0.3px;
+  }
+
+  .faq {
+    background: var(--bg-card);
+    border: 1px solid var(--stroke);
+    border-radius: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .faq summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 18px 22px;
+    font-weight: 600;
+    font-size: 15.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background .2s;
+  }
+  .faq summary:hover { background: rgba(255,255,255,0.03); }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: "+";
+    color: var(--accent);
+    font-size: 22px;
+    font-weight: 300;
+    transition: transform .25s;
+  }
+  .faq[open] summary::after { transform: rotate(45deg); }
+  .faq-body {
+    padding: 0 22px 20px;
+    color: var(--text-secondary);
+    font-size: 14.5px;
+  }
+
+  .guides {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .guide {
+    background: var(--bg-card);
+    border: 1px solid var(--stroke);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .guide h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .guide p { color: var(--text-secondary); font-size: 13.5px; }
+
+  footer {
+    border-top: 1px solid var(--stroke);
+    padding: 32px 0;
+    margin-top: 64px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  footer a { color: var(--text-secondary); text-decoration: none; margin: 0 12px; }
+  footer a:hover { color: var(--text-primary); }
+
+  @media (max-width: 600px) {
+    .contact-card { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<header>
+  <div class="container nav">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">∑</div>
+      <span>IRIRPRO</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="support.html" class="active">Support</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <h1>Support</h1>
+    <p class="lede">Help, answers, and a direct line to the IRIRPRO team. We typically respond within one business day.</p>
+
+    <div class="contact-card">
+      <div class="contact-icon">✉</div>
+      <div class="contact-text">
+        <h2>Email us</h2>
+        <p>Bug reports, feature requests, account questions — we read every message.</p>
+        <a href="mailto:selmabarankolay@gmail.com">selmabarankolay@gmail.com</a>
+      </div>
+    </div>
+
+    <h3 class="section">Quick Start Guide</h3>
+    <div class="guides">
+      <div class="guide">
+        <h4>① Enter your loan</h4>
+        <p>Open the Calculator tab. Type the principal, term in months, nominal annual rate, and any upfront fees. The Effective Annual Rate updates instantly.</p>
+      </div>
+      <div class="guide">
+        <h4>② Read the chart</h4>
+        <p>The payoff curve plots remaining balance over time. Tap any month to inspect principal, interest, and cumulative cost.</p>
+      </div>
+      <div class="guide">
+        <h4>③ Save the scenario</h4>
+        <p>Tap "Save" to add this loan to your dashboard. Saved scenarios appear on the home tab and in History for comparison.</p>
+      </div>
+      <div class="guide">
+        <h4>④ Compare offers</h4>
+        <p>Save each offer separately, then open Insights to see them side by side — same principal, different terms, the cheaper loan becomes obvious.</p>
+      </div>
+      <div class="guide">
+        <h4>⑤ Export & share</h4>
+        <p>From the History tab, share an amortization table as plain text or a CSV file with anyone you choose.</p>
+      </div>
+      <div class="guide">
+        <h4>⑥ Wipe everything</h4>
+        <p>Open Settings → Privacy → "Clear All" to permanently remove every stored scenario from your device.</p>
+      </div>
+    </div>
+
+    <h3 class="section">Frequently Asked Questions</h3>
+
+    <details class="faq">
+      <summary>How is the Effective Annual Rate (EAR) calculated?</summary>
+      <div class="faq-body">
+        IRIRPRO uses a Newton-Raphson solver to find the Internal Rate of Return (IRR) that discounts every cash flow of the loan to a Net Present Value of exactly zero. The IRR is then expressed annually and converted into the EAR using the standard compounding formula: EAR = (1 + periodic)<sup>n</sup> − 1, where <em>n</em> is the number of compounding periods per year.
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>Why does my EAR differ from the rate printed on the contract?</summary>
+      <div class="faq-body">
+        The "rate" most lenders publish is the nominal annual rate — it ignores compounding, fees, and timing of payments. IRIRPRO shows the true annualized cost including all of those factors, which is almost always higher than the headline rate.
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>Does IRIRPRO work offline?</summary>
+      <div class="faq-body">
+        Yes. Every feature — Calculator, History, Dashboard, Insights, Settings — works without an internet connection. The app makes no network requests of its own.
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>Where is my data stored?</summary>
+      <div class="faq-body">
+        Exclusively on your device, inside the iOS app sandbox. Nothing is synced to iCloud, Google Drive, Dropbox, or any custom server. Removing the app or tapping "Clear All" permanently erases the data.
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>Can I export my scenarios?</summary>
+      <div class="faq-body">
+        Yes. Open any saved scenario from the History tab and use the share button to export the full amortization schedule as plain text or CSV. The file is produced on-device and shared via the standard iOS share sheet.
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>What does the risk classification mean?</summary>
+      <div class="faq-body">
+        IRIRPRO tags every saved scenario with a risk band based on its Effective Annual Rate: <em>Excellent</em> (≤ 12%), <em>Fair</em> (12–25%), <em>High</em> (25–45%), <em>Very High</em> (45–80%), <em>Predatory</em> (> 80%). These are educational thresholds, not legal advice.
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>Is IRIRPRO financial advice?</summary>
+      <div class="faq-body">
+        No. IRIRPRO is an educational calculation tool. It produces mathematical estimates from the values you enter. It is not a substitute for advice from a qualified financial professional. See the <a href="terms.html" style="color: var(--accent);">Terms of Use</a> for the full disclaimer.
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>How do I report a bug?</summary>
+      <div class="faq-body">
+        Email <a href="mailto:selmabarankolay@gmail.com" style="color: var(--accent);">selmabarankolay@gmail.com</a> with: your iOS version, device model, app version (Settings → About), and a description of the issue. Screenshots help a lot.
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>How do I request a feature?</summary>
+      <div class="faq-body">
+        We love hearing from users. Send your idea to <a href="mailto:selmabarankolay@gmail.com" style="color: var(--accent);">selmabarankolay@gmail.com</a> with the subject line starting with "Feature:". We read every submission.
+      </div>
+    </details>
+  </div>
+</main>
+
+<footer>
+  <a href="index.html">Home</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="terms.html">Terms</a>
+  <span>© 2026 IRIRPRO</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRIRPRO — True Installment Rate</title>
+<meta name="description" content="IRIRPRO reveals the real cost of any installment loan. Built with a Newton-Raphson IRR engine. On-device only.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-deep: #0a0e1a;
+    --bg-card: #111827;
+    --stroke: rgba(255,255,255,0.08);
+    --text-primary: #f5f7fb;
+    --text-secondary: #b8c0d0;
+    --text-muted: #7a8499;
+    --accent: #5b8def;
+    --accent-deep: #7c3aed;
+    --amber: #f59e0b;
+    --coral: #ef4444;
+    --sky: #38bdf8;
+    --violet: #a78bfa;
+  }
+  html, body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(800px 500px at 15% 5%, rgba(124,58,237,0.18), transparent 60%),
+      radial-gradient(700px 500px at 85% 25%, rgba(91,141,239,0.18), transparent 60%),
+      radial-gradient(600px 400px at 50% 100%, rgba(56,189,248,0.12), transparent 60%);
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+  header {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--stroke);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    background: rgba(10,14,26,0.7);
+    z-index: 10;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+  }
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 800;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+  }
+  nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color .2s;
+  }
+  nav a:hover { color: var(--text-primary); }
+
+  .hero {
+    padding: 100px 0 80px;
+    text-align: center;
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(91,141,239,0.12);
+    border: 1px solid rgba(91,141,239,0.3);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    letter-spacing: 0.4px;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    background: linear-gradient(135deg, #fff 0%, #b8c0d0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 24px;
+  }
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent), var(--violet));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin: 0 auto 40px;
+  }
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(91,141,239,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(91,141,239,0.4); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--stroke);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.04); }
+
+  section { padding: 80px 0; }
+  .section-header { text-align: center; margin-bottom: 56px; }
+  .section-header h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+  .section-header p { color: var(--text-secondary); font-size: 16px; }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .feature {
+    background: var(--bg-card);
+    border: 1px solid var(--stroke);
+    border-radius: 20px;
+    padding: 28px;
+    transition: transform .2s, border-color .2s;
+  }
+  .feature:hover { transform: translateY(-4px); border-color: rgba(124,58,237,0.4); }
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 16px;
+    font-size: 22px;
+  }
+  .feature h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .feature p { font-size: 14px; color: var(--text-secondary); }
+  .icon-accent { background: rgba(91,141,239,0.14); color: var(--accent); }
+  .icon-violet { background: rgba(167,139,250,0.14); color: var(--violet); }
+  .icon-amber { background: rgba(245,158,11,0.14); color: var(--amber); }
+  .icon-sky { background: rgba(56,189,248,0.14); color: var(--sky); }
+  .icon-coral { background: rgba(239,68,68,0.14); color: var(--coral); }
+  .icon-mint { background: rgba(34,197,94,0.14); color: #22c55e; }
+
+  .math {
+    background: linear-gradient(135deg, rgba(91,141,239,0.06), rgba(124,58,237,0.06));
+    border: 1px solid var(--stroke);
+    border-radius: 24px;
+    padding: 48px 40px;
+    text-align: center;
+  }
+  .math code {
+    display: inline-block;
+    background: rgba(0,0,0,0.4);
+    padding: 16px 28px;
+    border-radius: 12px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 18px;
+    color: var(--violet);
+    margin: 16px 0;
+    border: 1px solid var(--stroke);
+  }
+  .math p { color: var(--text-secondary); max-width: 580px; margin: 0 auto; }
+
+  .privacy {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .privacy-text h2 { font-size: 32px; margin-bottom: 16px; letter-spacing: -0.5px; }
+  .privacy-text p { color: var(--text-secondary); margin-bottom: 16px; }
+  .privacy-list { list-style: none; }
+  .privacy-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--stroke);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+  .privacy-list li::before {
+    content: "✓";
+    color: #22c55e;
+    font-weight: 700;
+  }
+
+  footer {
+    border-top: 1px solid var(--stroke);
+    padding: 40px 0;
+    margin-top: 80px;
+  }
+  .footer-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .footer-links a:hover { color: var(--text-primary); }
+  .copyright {
+    color: var(--text-muted);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .privacy { grid-template-columns: 1fr; }
+    nav ul { gap: 16px; }
+    nav a { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <div class="brand-icon">∑</div>
+      <span>IRIRPRO</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="badge">TRUE INSTALLMENT RATE · v1.0</div>
+    <h1>Reveal the <span>real cost</span><br>of any installment loan.</h1>
+    <p>IRIRPRO computes the Effective Annual Rate (EAR), total interest, and full amortization schedule for any loan — using a Newton-Raphson IRR engine. Everything stays on your device.</p>
+    <div class="cta-row">
+      <a href="https://apps.apple.com" class="btn btn-primary">Download on the App Store</a>
+      <a href="#features" class="btn btn-ghost">Learn more</a>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <div class="section-header">
+      <h2>Built for clarity</h2>
+      <p>Every feature is designed to expose what lenders actually charge.</p>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon icon-accent">ƒ</div>
+        <h3>Newton-Raphson IRR</h3>
+        <p>Robust iterative solver finds the true internal rate of return with high precision — even with fees, irregular schedules, and zero-rate edge cases.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon icon-violet">��</div>
+        <h3>Real-time amortization</h3>
+        <p>Watch balance, principal, and interest curves update instantly as you tweak principal, term, rate, and fees.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon icon-amber">⚡</div>
+        <h3>Effective Annual Rate</h3>
+        <p>See the true annualized cost including compounding — not just the nominal rate printed on the contract.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon icon-sky">��️</div>
+        <h3>Risk profiling</h3>
+        <p>Every scenario is classified from <em>excellent</em> to <em>predatory</em> so you can compare offers at a glance.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon icon-mint">��</div>
+        <h3>Save & compare</h3>
+        <p>Store multiple loan scenarios in your history, side by side, with one-tap re-calculation.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon icon-coral">��</div>
+        <h3>On-device only</h3>
+        <p>No accounts. No cloud sync. No telemetry. Your financial data never leaves your phone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="math">
+      <h2>The math, made visible</h2>
+      <p>IRIRPRO solves the IRR equation directly — no APR approximations, no rounding tricks.</p>
+      <code>0 = Σ CF<sub>t</sub> / (1 + IRR)<sup>t</sup></code>
+      <p>Where <strong>CF<sub>t</sub></strong> is the net cash flow at period <strong>t</strong>. The Newton-Raphson solver converges to the rate that makes the Net Present Value exactly zero.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container privacy">
+    <div class="privacy-text">
+      <h2>Privacy by design</h2>
+      <p>IRIRPRO is built on the principle that your financial data belongs to you. There is nothing to trust because there is nothing transmitted.</p>
+      <a href="privacy.html" class="btn btn-ghost">Read the full policy →</a>
+    </div>
+    <ul class="privacy-list">
+      <li>No accounts, login, or registration</li>
+      <li>No cloud sync or remote backup</li>
+      <li>No analytics, crash reporters, or telemetry</li>
+      <li>No third-party SDKs or ad networks</li>
+      <li>All data stored locally, deletable at any time</li>
+      <li>App works fully offline</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="brand">
+        <div class="brand-icon">∑</div>
+        <span>IRIRPRO</span>
+      </div>
+      <div class="footer-links">
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="mailto:selmabarankolay@gmail.com">Contact</a>
+      </div>
+    </div>
+    <div class="copyright">© 2026 IRIRPRO. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
